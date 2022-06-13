@@ -7,7 +7,6 @@ export interface IUserM extends Document {
     email: string;
   }
   username: string;
-  phone?: string;
   profilePictureUrl?: string;
   isActive: boolean;
   fullName(): string;
@@ -28,7 +27,6 @@ export const userSchema: Schema = new Schema({
     },
   },
   username: { type: String, required: true, index: { unique: true } },
-  phone: { type: String},
   profilePictureUrl: { type: String, default: null },
   deletedAt: {type: String, default: null },
 }, { timestamps: true });
