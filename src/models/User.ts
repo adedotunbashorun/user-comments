@@ -10,7 +10,6 @@ export interface IUserM extends Document {
   profilePictureUrl?: string;
   isActive: boolean;
   fullName(): string;
-  comparePassword(candidatePassword: any): boolean;
 }
 
 export const userSchema: Schema = new Schema({
