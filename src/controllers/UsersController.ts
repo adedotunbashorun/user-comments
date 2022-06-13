@@ -2,13 +2,8 @@ import { Request, Response } from "express";
 import { Controller,  Get, Put, Post, Delete } from "@overnightjs/core";
 import { AbstractController } from "./AbstractController";
 import { UserRepository as Repository } from "../repositories/UserRepository";
-import { checkJwt } from "../middleware/auth";
-import { IUserM } from "../models/User";
-import { UserService } from "../service/UserService";
-
 @Controller("api/users")
 export class UserController extends AbstractController {
-  private user: any = new UserService();
   constructor() {
     super(new Repository());
   }
@@ -16,7 +11,7 @@ export class UserController extends AbstractController {
   @Get("")
   public async index(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUserM = await this.repository.findAll();
+      const user = await this.repository.findAll();
       res.status(200).send({ success: true, user });
     } catch (error: any) {
       res.status(401).json({ success: false, error, msg: error.message });
@@ -26,19 +21,18 @@ export class UserController extends AbstractController {
   @Post("register")
   public async registerUser(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUserM = await this.user.create(req);
+      const user = await this.repository.createNew(req);
 
       res.status(200).json({ success: true, user, msg: "user created successfully!" });
     } catch (error: any) {
       res.status(401).json({ success: false, error, msg: error.message });
     }
-
   }
 
   @Put("update/:userId")
   public async updateUser(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUserM = await this.user.update(req);
+      const user = await this.repository.updateData(req.params.id, req.body);
 
       res.status(200).json({ success: true, user, msg: "user updated successfully" });
     } catch (error: any) {
@@ -49,20 +43,10 @@ export class UserController extends AbstractController {
   @Get(":userId")
   public async findUser(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUserM = await this.repository.findById(req.params.userId);
+      const user = await this.repository.findById(req.params.userId);
 
       res.status(200).json({ success: true, user });
 
-    } catch (error: any) {
-      res.status(401).json({ success: false, error, msg: error.message });
-    }
-  }
-
-  @Delete("destroy/:id")
-  public async destroy(req: Request, res: Response): Promise<void> {
-    try {
-      await this.repository.forceDelete(req.params.id);
-      res.status(200).send({ success: true, msg: "user deleted successfull"});
     } catch (error: any) {
       res.status(401).json({ success: false, error, msg: error.message });
     }

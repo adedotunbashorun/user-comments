@@ -1,5 +1,4 @@
 import { Document, Schema, Model, model, Error } from "mongoose";
-// import * as bcrypt from "bcrypt-nodejs";
 
 export interface IComment extends Document {
   first_name?: string;
