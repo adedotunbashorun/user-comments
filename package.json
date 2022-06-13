@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config src/index.ts",
-    "start": "ts-node -r dotenv/config ./src/server.ts",
+    "start": "ts-node -r dotenv/config src/index.ts",
     "build": "rm -rf ./dist/ && tsc",
     "prod": "npm run build && npm start"
   },
-  "author": "",
+  "author": "Adedotun Olawale",
   "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.12",
